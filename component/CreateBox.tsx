@@ -7,7 +7,6 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 import React from "react";
-import { setRecord } from "../controller/db_access";
 import { INewRecord } from "./typedef";
 import { Favorite, FavoriteBorder } from "@mui/icons-material";
 import NoMealsOutlinedIcon from "@mui/icons-material/NoMealsOutlined";
@@ -16,6 +15,14 @@ import RestaurantOutlinedIcon from "@mui/icons-material/RestaurantOutlined";
 const defaultValues = {
   isLike: false,
   isAllergy: true,
+};
+
+const setRecord = async (record: INewRecord) => {
+  const requestInit: RequestInit = {
+    method: "POST",
+    body: JSON.stringify(record),
+  };
+  await fetch(`${window.location.href}api/liking`, requestInit);
 };
 
 const ButtonSubmitNew = (prop: { record: INewRecord; reset: () => void }) => {
@@ -95,6 +102,8 @@ export const CreateBox = () => {
     displayName,
     description,
     alias: aliasList,
+    isLike,
+    isAllergy,
   };
 
   const reset = () => {
@@ -121,17 +130,22 @@ export const CreateBox = () => {
           setter={setDescription}
         />
         <FormControlLabel
-          value={isLike}
           control={
-            <Checkbox icon={<FavoriteBorder />} checkedIcon={<Favorite />} />
+            <Checkbox
+              checked={isLike}
+              onChange={(e) => setIsLike(e.target.checked)}
+              icon={<FavoriteBorder />}
+              checkedIcon={<Favorite />}
+            />
           }
           label="好み"
           labelPlacement="end"
         />
         <FormControlLabel
-          value={isAllergy}
           control={
             <Checkbox
+              checked={isAllergy}
+              onChange={(e) => setIsAllergy(e.target.checked)}
               icon={<RestaurantOutlinedIcon />}
               checkedIcon={<NoMealsOutlinedIcon />}
             />
