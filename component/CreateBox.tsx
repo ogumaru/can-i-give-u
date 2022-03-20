@@ -13,6 +13,11 @@ import { Favorite, FavoriteBorder } from "@mui/icons-material";
 import NoMealsOutlinedIcon from "@mui/icons-material/NoMealsOutlined";
 import RestaurantOutlinedIcon from "@mui/icons-material/RestaurantOutlined";
 
+const defaultValues = {
+  isLike: false,
+  isAllergy: true,
+};
+
 const ButtonSubmitNew = (prop: { record: INewRecord; reset: () => void }) => {
   const postData = async (record: INewRecord) => {
     await setRecord(record);
@@ -83,8 +88,8 @@ const ButtonAddAlias = (prop: {
 export const CreateBox = () => {
   const [displayName, setDisplayName] = useState("");
   const [description, setDescription] = useState("");
-  const [isLike, setIsLike] = useState(false);
-  const [isAllergy, setIsAllergy] = useState(true);
+  const [isLike, setIsLike] = useState(defaultValues.isLike);
+  const [isAllergy, setIsAllergy] = useState(defaultValues.isAllergy);
   const [aliasList, setAlias] = useState([] as string[]);
   const newRecord = {
     displayName,
@@ -96,6 +101,8 @@ export const CreateBox = () => {
     setDisplayName("");
     setDescription("");
     setAlias([] as string[]);
+    setIsLike(defaultValues.isLike);
+    setIsAllergy(defaultValues.isAllergy);
   };
   return (
     <>
