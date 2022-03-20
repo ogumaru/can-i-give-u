@@ -1,8 +1,17 @@
-import { Button, TextField, Stack } from "@mui/material";
+import {
+  Button,
+  Checkbox,
+  FormControlLabel,
+  Stack,
+  TextField,
+} from "@mui/material";
 import { useState } from "react";
 import React from "react";
 import { setRecord } from "../controller/db_access";
 import { INewRecord } from "./typedef";
+import { Favorite, FavoriteBorder } from "@mui/icons-material";
+import NoMealsOutlinedIcon from "@mui/icons-material/NoMealsOutlined";
+import RestaurantOutlinedIcon from "@mui/icons-material/RestaurantOutlined";
 
 const ButtonSubmitNew = (prop: { record: INewRecord; reset: () => void }) => {
   const postData = async (record: INewRecord) => {
@@ -74,6 +83,8 @@ const ButtonAddAlias = (prop: {
 export const CreateBox = () => {
   const [displayName, setDisplayName] = useState("");
   const [description, setDescription] = useState("");
+  const [isLike, setIsLike] = useState(false);
+  const [isAllergy, setIsAllergy] = useState(true);
   const [aliasList, setAlias] = useState([] as string[]);
   const newRecord = {
     displayName,
@@ -101,6 +112,25 @@ export const CreateBox = () => {
           label={"概要"}
           value={description}
           setter={setDescription}
+        />
+        <FormControlLabel
+          value={isLike}
+          control={
+            <Checkbox icon={<FavoriteBorder />} checkedIcon={<Favorite />} />
+          }
+          label="好み"
+          labelPlacement="end"
+        />
+        <FormControlLabel
+          value={isAllergy}
+          control={
+            <Checkbox
+              icon={<RestaurantOutlinedIcon />}
+              checkedIcon={<NoMealsOutlinedIcon />}
+            />
+          }
+          label="アレルギー"
+          labelPlacement="end"
         />
         <ButtonAddAlias value={aliasList} setter={setAlias} />
         {aliasList.map((alias, index) => (
