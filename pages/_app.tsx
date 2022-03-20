@@ -9,8 +9,8 @@ import "@aws-amplify/ui-react/styles.css";
 Amplify.configure({
   Auth: {
     region: "ap-northeast-1",
-    userPoolId: "ap-northeast-1_****",
-    userPoolWebClientId: "****",
+    userPoolId: process.env.NEXT_PUBLIC_AMPLIFY_USERPOOL_ID,
+    userPoolWebClientId: process.env.NEXT_PUBLIC_AMPLIFY_USERPOOL_WEB_CLIENT_ID,
   },
 });
 
