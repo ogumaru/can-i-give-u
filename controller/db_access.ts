@@ -1,5 +1,6 @@
 import { Prisma, PrismaClient } from "@prisma/client";
 import { ILikingItemServer, ILikingItemClient } from "../component/typedef";
+import { INewRecord } from "../component/typedef";
 
 const fetchDB = async () => {
   const prisma = new PrismaClient();
@@ -33,7 +34,7 @@ export const getRecords = async () => {
   if (isILikingItemClientList(proxied)) return proxied as ILikingItemClient[];
   else return null as never;
 };
-export const setRecord = async (record: ILikingItemClient) => {
+export const setRecord = async (record: INewRecord) => {
   const prisma = new PrismaClient();
   const newRecord: Prisma.LikingCreateInput = {
     displayName: record.displayName,

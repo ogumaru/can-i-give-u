@@ -1,10 +1,12 @@
 import { Button, TextField, Stack } from "@mui/material";
 import { useState } from "react";
 import React from "react";
+import { setRecord } from "../controller/db_access";
+import { INewRecord } from "./typedef";
 
-const ButtonSubmitNew = (prop: any) => {
-  const postData = async (record: any) => {
-    console.log(record);
+const ButtonSubmitNew = (prop: { record: INewRecord; reset: () => void }) => {
+  const postData = async (record: INewRecord) => {
+    await setRecord(record);
     // Success
     if (true) {
       prop.reset();

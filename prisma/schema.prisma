@@ -16,7 +16,7 @@ model Liking {
   alias       Alias[]
   isLike      Boolean
   isAllergy   Boolean
-  description String
+  description String?
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }
