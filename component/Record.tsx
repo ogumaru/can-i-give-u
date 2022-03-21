@@ -8,7 +8,12 @@ export default function Records(props: IPropsRecords) {
         autoHeight={true}
         rows={props.records}
         columns={headers}
-        pageSize={5}
+        initialState={{
+          sorting: {
+            sortModel: [{ field: "id", sort: "desc" }],
+          },
+        }}
+        pageSize={36}
         rowsPerPageOptions={[5]}
         checkboxSelection
         disableSelectionOnClick
@@ -18,22 +23,27 @@ export default function Records(props: IPropsRecords) {
 }
 
 const headers: GridColDef[] = [
-  // { field: "id", headerName: "uniqueID", editable: false, flex: 1 },
+  {
+    field: "id",
+    headerName: "ID",
+    editable: false,
+    flex: 5,
+  },
   {
     field: "displayName",
     headerName: "name",
     editable: false,
-    flex: 1,
+    flex: 25,
   },
   {
     field: "isLike",
     headerName: "好み",
     type: "boolean",
     editable: false,
-    renderCell: arg => {
-      return <>{ arg.value ? '好き' : '好きじゃない' }</>;
+    renderCell: (arg) => {
+      return <>{arg.value ? "好き" : "好きじゃない"}</>;
     },
-    flex: 0.25,
+    flex: 20,
   },
   {
     field: "isAllergy",
@@ -41,15 +51,15 @@ const headers: GridColDef[] = [
     description: "あると危険",
     type: "boolean",
     editable: false,
-    renderCell: arg => {
-      return <>{ arg.value ? 'アレルギー' : 'アレルギーじゃない' }</>;
+    renderCell: (arg) => {
+      return <>{arg.value ? "アレルギー" : "アレルギーじゃない"}</>;
     },
-    flex: 0.25,
+    flex: 20,
   },
   {
     field: "description",
     headerName: "概要",
     editable: false,
-    flex: 1,
+    flex: 30,
   },
 ];
