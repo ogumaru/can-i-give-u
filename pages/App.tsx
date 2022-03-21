@@ -14,13 +14,17 @@ export const RecordsContext = createContext(initialValue);
 
 export default function App() {
   const [records, setRecords] = useState(initialValue);
-  const [isReloadRequired, setIsReloadRequired] = useState(false);
+  const [isReloadRequired, setIsReloadRequired] = useState(true);
   useEffect(() => {
+    if (!isReloadRequired) {
+      return;
+    }
     const initialize = async () => {
       const _dbRecords = await getList();
       setRecords(_dbRecords);
     };
     initialize();
+    setIsReloadRequired(false);
   }, [isReloadRequired]);
 
   return (
