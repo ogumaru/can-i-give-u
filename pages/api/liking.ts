@@ -21,14 +21,14 @@ export default async function handler(
         const parsed = JSON.parse(req.body);
         if (isNewRecord(parsed)) {
           const result = await setRecord(parsed);
-          res.status(200);
+          res.status(200).end();
         }
       }
       default: {
-        res.status(500);
+        res.status(500).end();
       }
     }
   } catch {
-    res.status(500);
+    res.status(500).end();
   }
 }
