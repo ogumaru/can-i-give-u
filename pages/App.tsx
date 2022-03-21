@@ -14,18 +14,19 @@ export const RecordsContext = createContext(initialValue);
 
 export default function App() {
   const [records, setRecords] = useState(initialValue);
+  const [isReloadRequired, setIsReloadRequired] = useState(false);
   useEffect(() => {
     const initialize = async () => {
       const _dbRecords = await getList();
       setRecords(_dbRecords);
     };
     initialize();
-  }, []);
+  }, [isReloadRequired]);
 
   return (
     <RecordsContext.Provider value={records}>
       <Box m={2} pt={3}>
-        <CreateBox />
+        <CreateBox setIsReloadRequired={setIsReloadRequired} />
         <SearchBox />
       </Box>
     </RecordsContext.Provider>

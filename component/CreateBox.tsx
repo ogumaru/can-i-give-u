@@ -5,7 +5,7 @@ import {
   Stack,
   TextField,
 } from "@mui/material";
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import React from "react";
 import { INewRecord } from "./typedef";
 import { Favorite, FavoriteBorder } from "@mui/icons-material";
@@ -92,7 +92,9 @@ const ButtonAddAlias = (prop: {
     </>
   );
 };
-export const CreateBox = () => {
+export const CreateBox = (prop: {
+  setIsReloadRequired: Dispatch<SetStateAction<boolean>>;
+}) => {
   const [displayName, setDisplayName] = useState("");
   const [description, setDescription] = useState("");
   const [isLike, setIsLike] = useState(defaultValues.isLike);
@@ -112,6 +114,7 @@ export const CreateBox = () => {
     setAlias([] as string[]);
     setIsLike(defaultValues.isLike);
     setIsAllergy(defaultValues.isAllergy);
+    prop.setIsReloadRequired(true);
   };
   return (
     <>
