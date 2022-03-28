@@ -1,7 +1,10 @@
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { Dispatch, SetStateAction } from "react";
 import { IPropsRecords } from "./typedef";
 
-export default function Records(props: IPropsRecords) {
+export default function Records(
+  props: IPropsRecords & { setSelections: Dispatch<SetStateAction<number[]>> }
+) {
   return (
     <div style={{ width: "100%" }}>
       <DataGrid
@@ -17,6 +20,9 @@ export default function Records(props: IPropsRecords) {
         rowsPerPageOptions={[5]}
         checkboxSelection
         disableSelectionOnClick
+        onSelectionModelChange={(idList) => {
+          props.setSelections(idList.map((id) => Number(id)));
+        }}
       />
     </div>
   );

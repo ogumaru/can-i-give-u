@@ -49,3 +49,23 @@ export const setRecord = async (record: INewRecord) => {
     data: newRecord,
   });
 };
+
+export const deleteRecord = async (likingIDList: number[]) => {
+  const prisma = new PrismaClient();
+  const queries = likingIDList
+    .map((likingDeleteID) => {
+      const deleteLiking = prisma.liking.deleteMany({
+        where: {
+          id: likingDeleteID,
+        },
+      });
+      const deleteAlias = prisma.alias.deleteMany({
+        where: {
+          likingId: likingDeleteID,
+        },
+      });
+      return [deleteLiking, deleteAlias];
+    })
+    .flat();
+  const transaction = await prisma.$transaction(queries);
+};
