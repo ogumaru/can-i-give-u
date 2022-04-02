@@ -31,6 +31,29 @@
 | PlanetScale | データベース |
 | AWS Cognito | ユーザ認証   |
 
+## ER 図
+
+```mermaid
+erDiagram
+  Liking {
+    Int id
+    String displayName
+    Boolean isLike
+    Boolean isAllergy
+    String description
+    DateTime createdAt
+    DateTime updatedAt
+  }
+
+
+  Alias {
+    Int id
+    String alias
+  }
+
+    Alias o{--|| Liking : "liking"
+```
+
 ## TODO
 
 - テスト
