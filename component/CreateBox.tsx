@@ -25,15 +25,25 @@ const setRecord = async (record: INewRecord) => {
   await fetch(`${window.location.href}api/liking`, requestInit);
 };
 
+const isValidRecord = (record: INewRecord) => {
+  if (!record.displayName) return false;
+  return true;
+};
+
 const ButtonSubmitNew = (prop: {
   record: INewRecord;
   reset: () => void;
   disabled: boolean;
   setDisabled: Dispatch<SetStateAction<boolean>>;
+  showError: (message: string) => void;
 }) => {
   const postData = async (record: INewRecord) => {
     prop.setDisabled(true);
-    await setRecord(record);
+    if (isValidRecord(record)) {
+      await setRecord(record);
+    } else {
+      prop.showError("エラー: 入力が不十分です");
+    }
     // Success
     if (true) {
       prop.reset();
@@ -105,6 +115,7 @@ const ButtonAddAlias = (prop: {
 };
 export const CreateBox = (prop: {
   setIsReloadRequired: Dispatch<SetStateAction<boolean>>;
+  showError: (message: string) => void;
 }) => {
   const [displayName, setDisplayName] = useState("");
   const [description, setDescription] = useState("");
@@ -184,6 +195,7 @@ export const CreateBox = (prop: {
           reset={reset}
           disabled={isButtonDisabled}
           setDisabled={setIsButtonDisabled}
+          showError={prop.showError}
         />
       </Stack>
     </>
