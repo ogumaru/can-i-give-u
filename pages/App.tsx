@@ -6,7 +6,7 @@ import { ILikingItemClient } from "../component/typedef";
 import { Box } from "@mui/material";
 
 const getList = async () => {
-  const response = await fetch("http://localhost:3000/api/liking");
+  const response = await fetch(`${window.location.href}api/liking`);
   const itemList = (await response.json()) as ILikingItemClient[];
   return itemList;
 };
