@@ -1,0 +1,31 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  previewFeatures = ["referentialIntegrity"]
+  provider        = "prisma-client-js"
+}
+
+datasource db {
+  provider             = "mysql"
+  url                  = env("DATABASE_URL")
+  referentialIntegrity = "prisma"
+}
+
+model Liking {
+  id          Int      @id @default(autoincrement())
+  displayName String
+  alias       Alias[]
+  isLike      Boolean
+  isAllergy   Boolean
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Alias {
+  id       Int    @id @default(autoincrement())
+  alias    String
+  liking   Liking @relation(fields: [likingId], references: [id])
+  likingId Int
+}
