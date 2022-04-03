@@ -39,14 +39,14 @@ const ButtonSubmitNew = (prop: {
 }) => {
   const postData = async (record: INewRecord) => {
     prop.setDisabled(true);
-    if (isValidRecord(record)) {
-      await setRecord(record);
-    } else {
+    if (!isValidRecord(record)) {
       prop.showError("エラー: 入力が不十分です");
-    }
-    // Success
-    if (true) {
-      prop.reset();
+    } else {
+      await setRecord(record);
+      // Success
+      if (true) {
+        prop.reset();
+      }
     }
     prop.setDisabled(false);
   };
