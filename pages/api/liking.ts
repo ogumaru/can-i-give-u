@@ -7,8 +7,19 @@ import {
 import { ILikingItemClient, INewRecord } from "../../component/typedef";
 
 const isNewRecord = (arg: any): arg is INewRecord => {
-  // TODO: Check
-  return true;
+  if (!arg) return false;
+  const { displayName, isAllergy, isLike, description, alias } = arg;
+  const conditions = [
+    typeof displayName === "string",
+    typeof isAllergy === "boolean",
+    typeof isLike === "boolean",
+    description === null || typeof description === "string",
+    Array.isArray(alias) &&
+      alias
+        .map((alias) => typeof alias === "string")
+        .every((isString) => isString === true),
+  ];
+  return conditions.every((condition) => condition === true);
 };
 
 const isIDList = (arg: unknown): arg is number[] => {
@@ -18,7 +29,7 @@ const isIDList = (arg: unknown): arg is number[] => {
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<ILikingItemClient[]>
+  res: NextApiResponse<ILikingItemClient[] | { message: string }>
 ) {
   try {
     switch (req.method?.toUpperCase()) {
@@ -31,6 +42,8 @@ export default async function handler(
         if (isNewRecord(parsed)) {
           const result = await setRecord(parsed);
           res.status(200).end();
+        } else {
+          res.status(400).json({ message: "Invalid format" });
         }
       }
       case "DELETE": {
