@@ -25,16 +25,37 @@ const setRecord = async (record: INewRecord) => {
   await fetch(`${window.location.href}api/liking`, requestInit);
 };
 
-const ButtonSubmitNew = (prop: { record: INewRecord; reset: () => void }) => {
+const isValidRecord = (record: INewRecord) => {
+  if (!record.displayName) return false;
+  return true;
+};
+
+const ButtonSubmitNew = (prop: {
+  record: INewRecord;
+  reset: () => void;
+  disabled: boolean;
+  setDisabled: Dispatch<SetStateAction<boolean>>;
+  showError: (message: string) => void;
+}) => {
   const postData = async (record: INewRecord) => {
-    await setRecord(record);
+    prop.setDisabled(true);
+    if (isValidRecord(record)) {
+      await setRecord(record);
+    } else {
+      prop.showError("エラー: 入力が不十分です");
+    }
     // Success
     if (true) {
       prop.reset();
     }
+    prop.setDisabled(false);
   };
   return (
-    <Button variant="contained" onClick={(_) => postData(prop.record)}>
+    <Button
+      variant="contained"
+      onClick={(_) => postData(prop.record)}
+      disabled={prop.disabled}
+    >
       保存
     </Button>
   );
@@ -94,12 +115,14 @@ const ButtonAddAlias = (prop: {
 };
 export const CreateBox = (prop: {
   setIsReloadRequired: Dispatch<SetStateAction<boolean>>;
+  showError: (message: string) => void;
 }) => {
   const [displayName, setDisplayName] = useState("");
   const [description, setDescription] = useState("");
   const [isLike, setIsLike] = useState(defaultValues.isLike);
   const [isAllergy, setIsAllergy] = useState(defaultValues.isAllergy);
   const [aliasList, setAlias] = useState([] as string[]);
+  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
   const newRecord = {
     displayName,
     description,
@@ -167,7 +190,13 @@ export const CreateBox = (prop: {
             setter={setAlias}
           />
         ))}
-        <ButtonSubmitNew record={newRecord} reset={reset} />
+        <ButtonSubmitNew
+          record={newRecord}
+          reset={reset}
+          disabled={isButtonDisabled}
+          setDisabled={setIsButtonDisabled}
+          showError={prop.showError}
+        />
       </Stack>
     </>
   );
