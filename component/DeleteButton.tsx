@@ -1,5 +1,5 @@
 import { IconButton } from "@mui/material";
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import React from "react";
 import DeleteSweepOutlinedIcon from "@mui/icons-material/DeleteSweepOutlined";
 
@@ -19,12 +19,21 @@ export const DeleteButton = (props: {
     props.setIsReloadRequired(true);
     return response;
   };
+  useEffect(() => {
+    if (props.selections.length > 0) {
+      setIsButtonDisabled(false);
+    } else {
+      setIsButtonDisabled(true);
+    }
+  }, [props.selections]);
+  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
   return (
     <>
       <IconButton
         color="primary"
         aria-label="upload picture"
         component="span"
+        disabled={isButtonDisabled}
         onClick={() => deleteRecord(props.selections)}
       >
         <DeleteSweepOutlinedIcon />
