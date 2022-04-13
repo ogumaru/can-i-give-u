@@ -4,11 +4,16 @@ import { INewRecord } from "../component/typedef";
 
 const fetchDB = async () => {
   const prisma = new PrismaClient();
-  const records = await prisma.liking.findMany({
-    include: { alias: true },
-  });
-  await prisma.$disconnect();
-  return records;
+  try {
+    const records = await prisma.liking.findMany({
+      include: { alias: true },
+    });
+    return records;
+  } catch {
+    throw new Error("Transaction error occured.");
+  } finally {
+    await prisma.$disconnect();
+  }
 };
 
 const isILikingItemClientList = (args: any): args is ILikingItemClient[] => {
@@ -45,9 +50,15 @@ export const setRecord = async (record: INewRecord) => {
     isLike: record.isLike,
     description: record.description,
   };
-  const liking = await prisma.liking.create({
-    data: newRecord,
-  });
+  try {
+    const liking = await prisma.liking.create({
+      data: newRecord,
+    });
+  } catch {
+    throw new Error("Transaction error occured.");
+  } finally {
+    await prisma.$disconnect();
+  }
 };
 
 export const deleteRecord = async (likingIDList: number[]) => {
@@ -67,5 +78,11 @@ export const deleteRecord = async (likingIDList: number[]) => {
       return [deleteAlias, deleteLiking];
     })
     .flat();
-  const transaction = await prisma.$transaction(queries);
+  try {
+    const [deletedAlias, deletedLiking] = await prisma.$transaction(queries);
+  } catch {
+    throw new Error("Transaction error occured.");
+  } finally {
+    await prisma.$disconnect();
+  }
 };
