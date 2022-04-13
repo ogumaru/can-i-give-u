@@ -60,6 +60,7 @@ export default function App() {
         open={isSnackOpen}
         action={action}
         autoHideDuration={3000}
+        onClose={() => setIsSnakOpen(false)}
         message={snackMessage}
       />
     </RecordsContext.Provider>

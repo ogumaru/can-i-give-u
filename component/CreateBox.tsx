@@ -22,7 +22,11 @@ const setRecord = async (record: INewRecord) => {
     method: "POST",
     body: JSON.stringify(record),
   };
-  await fetch(`${window.location.href}api/liking`, requestInit);
+  const response = await fetch(
+    `${window.location.href}api/liking`,
+    requestInit
+  );
+  return response.ok;
 };
 
 const isValidRecord = (record: INewRecord) => {
@@ -39,14 +43,15 @@ const ButtonSubmitNew = (prop: {
 }) => {
   const postData = async (record: INewRecord) => {
     prop.setDisabled(true);
-    if (isValidRecord(record)) {
-      await setRecord(record);
-    } else {
+    if (!isValidRecord(record)) {
       prop.showError("エラー: 入力が不十分です");
-    }
-    // Success
-    if (true) {
-      prop.reset();
+    } else {
+      const isOK = await setRecord(record);
+      if (isOK) {
+        prop.reset();
+      } else {
+        prop.showError("エラー: 保存に失敗しました");
+      }
     }
     prop.setDisabled(false);
   };
