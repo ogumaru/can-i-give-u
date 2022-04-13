@@ -6,9 +6,11 @@ import {
 } from "../../controller/db_access";
 import { ILikingItemClient, INewRecord } from "../../component/typedef";
 
-const isNewRecord = (arg: any): arg is INewRecord => {
+const isNewRecord = (arg: unknown): arg is INewRecord => {
   if (!arg) return false;
-  const { displayName, isAllergy, isLike, description, alias } = arg;
+  if (typeof arg !== "object") return false;
+  const { displayName, isAllergy, isLike, description, alias } =
+    arg as INewRecord;
   const conditions = [
     typeof displayName === "string",
     typeof isAllergy === "boolean",
