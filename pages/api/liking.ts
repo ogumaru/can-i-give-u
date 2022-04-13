@@ -23,8 +23,9 @@ const isNewRecord = (arg: any): arg is INewRecord => {
 };
 
 const isIDList = (arg: unknown): arg is number[] => {
-  // TODO: Check
-  return true;
+  if (!arg) return false;
+  if (Array.isArray(arg) && arg.every((v) => Number.isInteger(v))) return true;
+  return false;
 };
 
 export default async function handler(
