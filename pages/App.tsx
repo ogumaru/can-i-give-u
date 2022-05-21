@@ -8,8 +8,11 @@ import CloseIcon from "@mui/icons-material/Close";
 
 const getList = async () => {
   const response = await fetch(`${window.location.href}api/liking`);
-  const itemList = (await response.json()) as ILikingItemClient[];
-  return itemList;
+  const itemList = (await response.json()) as {
+    result: null;
+    records: ILikingItemClient[];
+  };
+  return itemList.records;
 };
 const initialValue = [] as ILikingItemClient[];
 export const RecordsContext = createContext(initialValue);
