@@ -7,7 +7,7 @@ import {
 } from "@mui/material";
 import { Dispatch, SetStateAction, useState } from "react";
 import React from "react";
-import { INewRecord } from "./typedef";
+import { ICreatedResponse, ILikingItemClient, INewRecord } from "./typedef";
 import { Favorite, FavoriteBorder } from "@mui/icons-material";
 import NoMealsOutlinedIcon from "@mui/icons-material/NoMealsOutlined";
 import RestaurantOutlinedIcon from "@mui/icons-material/RestaurantOutlined";
@@ -26,7 +26,7 @@ const setRecord = async (record: INewRecord) => {
     `${window.location.href}api/liking`,
     requestInit
   );
-  return response.ok;
+  return response;
 };
 
 const isValidRecord = (record: INewRecord) => {
@@ -35,6 +35,7 @@ const isValidRecord = (record: INewRecord) => {
 };
 
 const ButtonSubmitNew = (prop: {
+  setter: Dispatch<SetStateAction<ILikingItemClient[]>>;
   record: INewRecord;
   reset: () => void;
   disabled: boolean;
@@ -46,8 +47,10 @@ const ButtonSubmitNew = (prop: {
     if (!isValidRecord(record)) {
       prop.showError("エラー: 入力が不十分です");
     } else {
-      const isOK = await setRecord(record);
-      if (isOK) {
+      const response = await setRecord(record);
+      if (response.ok) {
+        const json = (await response.json()) as ICreatedResponse;
+        prop.setter(json.records);
         prop.reset();
       } else {
         prop.showError("エラー: 保存に失敗しました");
@@ -58,7 +61,7 @@ const ButtonSubmitNew = (prop: {
   return (
     <Button
       variant="contained"
-      onClick={(_) => postData(prop.record)}
+      onClick={async (_) => await postData(prop.record)}
       disabled={prop.disabled}
     >
       保存
@@ -119,7 +122,7 @@ const ButtonAddAlias = (prop: {
   );
 };
 export const CreateBox = (prop: {
-  setIsReloadRequired: Dispatch<SetStateAction<boolean>>;
+  setter: Dispatch<SetStateAction<ILikingItemClient[]>>;
   showError: (message: string) => void;
 }) => {
   const [displayName, setDisplayName] = useState("");
@@ -142,7 +145,6 @@ export const CreateBox = (prop: {
     setAlias([] as string[]);
     setIsLike(defaultValues.isLike);
     setIsAllergy(defaultValues.isAllergy);
-    prop.setIsReloadRequired(true);
   };
   return (
     <>
@@ -200,6 +202,7 @@ export const CreateBox = (prop: {
           reset={reset}
           disabled={isButtonDisabled}
           setDisabled={setIsButtonDisabled}
+          setter={prop.setter}
           showError={prop.showError}
         />
       </Stack>
