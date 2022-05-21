@@ -5,6 +5,7 @@ import {
   deleteRecord,
 } from "../../controller/db_access";
 import { ILikingItemClient, INewRecord } from "../../component/typedef";
+import { Liking, Prisma } from "@prisma/client";
 
 const isNewRecord = (arg: unknown): arg is INewRecord => {
   if (!arg) return false;
@@ -32,19 +33,26 @@ const isIDList = (arg: unknown): arg is number[] => {
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<ILikingItemClient[] | { message: string }>
+  res: NextApiResponse<
+    | {
+        result: Liking | null | Prisma.BatchPayload[];
+        records: ILikingItemClient[];
+      }
+    | { message: string }
+  >
 ) {
   try {
     switch (req.method?.toUpperCase()) {
       case "GET": {
         const records = await getRecords();
-        res.status(200).json(records);
+        res.status(200).json({ result: null, records });
       }
       case "POST": {
         const parsed = JSON.parse(req.body);
         if (isNewRecord(parsed)) {
           const result = await setRecord(parsed);
-          res.status(200).end();
+          const records = await getRecords();
+          res.status(200).json({ result, records });
         } else {
           res.status(400).json({ message: "Invalid format" });
         }
@@ -53,7 +61,8 @@ export default async function handler(
         const parsed = JSON.parse(req.body);
         if (isIDList(parsed)) {
           const result = await deleteRecord(parsed);
-          res.status(200).end();
+          const records = await getRecords();
+          res.status(200).json({ result, records });
         }
       }
       default: {

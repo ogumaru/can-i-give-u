@@ -54,6 +54,7 @@ export const setRecord = async (record: INewRecord) => {
     const liking = await prisma.liking.create({
       data: newRecord,
     });
+    return liking;
   } catch {
     throw new Error("Transaction error occured.");
   } finally {
@@ -80,6 +81,7 @@ export const deleteRecord = async (likingIDList: number[]) => {
     .flat();
   try {
     const [deletedAlias, deletedLiking] = await prisma.$transaction(queries);
+    return [deletedAlias, deletedLiking];
   } catch {
     throw new Error("Transaction error occured.");
   } finally {
