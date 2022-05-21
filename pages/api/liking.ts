@@ -4,7 +4,13 @@ import {
   setRecord,
   deleteRecord,
 } from "../../controller/db_access";
-import { ILikingItemClient, INewRecord } from "../../component/typedef";
+import {
+  ILikingItemClient,
+  INewRecord,
+  ICreatedResponse,
+  IDeletedResponse,
+  IReadResponse,
+} from "../../component/typedef";
 import { Liking, Prisma } from "@prisma/client";
 
 const isNewRecord = (arg: unknown): arg is INewRecord => {
@@ -34,11 +40,7 @@ const isIDList = (arg: unknown): arg is number[] => {
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<
-    | {
-        result: Liking | null | Prisma.BatchPayload[];
-        records: ILikingItemClient[];
-      }
-    | { message: string }
+    IReadResponse | ICreatedResponse | IDeletedResponse | { message: string }
   >
 ) {
   try {
