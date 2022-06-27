@@ -13,7 +13,7 @@
     "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
   },
   "dependencies": {
-    "@aws-amplify/ui-react": "^2.15.8",
+    "@aws-amplify/ui-react": "^3.0.2",
     "@emotion/react": "^11.9.3",
     "@emotion/styled": "^11.8.1",
     "@mui/icons-material": "^5.6.2",
