@@ -13,7 +13,7 @@
     "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
   },
   "dependencies": {
-    "@aws-amplify/ui-react": "^2.15.8",
+    "@aws-amplify/ui-react": "^3.0.3",
     "@emotion/react": "^11.9.3",
     "@emotion/styled": "^11.8.1",
     "@mui/icons-material": "^5.6.2",
@@ -26,7 +26,7 @@
   },
   "devDependencies": {
     "@prisma/client": "^3.14.0",
-    "@types/node": "17.0.40",
+    "@types/node": "18.0.3",
     "@types/react": "18.0.8",
     "eslint": "8.17.0",
     "eslint-config-next": "12.1.6",
