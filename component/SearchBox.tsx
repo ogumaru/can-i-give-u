@@ -2,6 +2,7 @@ import { Dispatch, SetStateAction, useContext, useState } from "react";
 import { Autocomplete, TextField } from "@mui/material";
 import { RecordsContext } from "../pages/App";
 import Records from "./Record";
+import { uniqueExists } from "../controller/collection";
 
 export function SearchBox(prop: {
   setSelections: Dispatch<SetStateAction<number[]>>;
@@ -21,7 +22,7 @@ export function SearchBox(prop: {
         onChange={(_, input) => {
           setInput(input);
         }}
-        options={records.map((record) => record.displayName)}
+        options={uniqueExists(records.map((record) => record.displayName))}
         renderInput={(params) => <TextField key={params.id} {...params} />}
       />
       <Records records={displayRecords} setSelections={prop.setSelections} />
