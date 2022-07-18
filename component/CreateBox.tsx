@@ -11,6 +11,7 @@ import { ICreatedResponse, ILikingItemClient, INewRecord } from "./typedef";
 import { Favorite, FavoriteBorder } from "@mui/icons-material";
 import NoMealsOutlinedIcon from "@mui/icons-material/NoMealsOutlined";
 import RestaurantOutlinedIcon from "@mui/icons-material/RestaurantOutlined";
+import { uniqueExists } from "../controller/collection";
 
 const defaultValues = {
   isLike: false,
@@ -134,7 +135,7 @@ export const CreateBox = (prop: {
   const newRecord = {
     displayName,
     description,
-    alias: aliasList,
+    alias: uniqueExists(aliasList),
     isLike,
     isAllergy,
   };

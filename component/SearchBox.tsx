@@ -1,39 +1,28 @@
-import {
-  Dispatch,
-  SetStateAction,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
+import { Dispatch, SetStateAction, useContext, useState } from "react";
 import { Autocomplete, TextField } from "@mui/material";
 import { RecordsContext } from "../pages/App";
 import Records from "./Record";
+import { uniqueExists } from "../controller/collection";
 
 export function SearchBox(prop: {
   setSelections: Dispatch<SetStateAction<number[]>>;
 }) {
   const records = useContext(RecordsContext);
-  const [displayRecords, setDisplayRecords] = useState(records);
-  useEffect(() => {
-    setDisplayRecords(records);
-  }, [records]);
+  const [input, setInput] = useState<string | null>(null);
+  const displayRecords = records.filter((record) => {
+    if (!input) return true;
+    const names = [record.displayName, record.alias].flat().join(" ");
+    return names.includes(input);
+  });
 
   return (
     <>
       <Autocomplete
         freeSolo
         onChange={(_, input) => {
-          if (input === null) {
-            setDisplayRecords(records);
-            return;
-          }
-          const filtered = records.filter((record) => {
-            const alias = [record.displayName].concat(record.alias).join(", ");
-            return alias.includes(input);
-          });
-          setDisplayRecords(filtered);
+          setInput(input);
         }}
-        options={records.map((record) => record.displayName)}
+        options={uniqueExists(records.map((record) => record.displayName))}
         renderInput={(params) => <TextField key={params.id} {...params} />}
       />
       <Records records={displayRecords} setSelections={prop.setSelections} />

@@ -35,6 +35,14 @@ npx prisma db seed
 npm run start
 ```
 
+### ローカル環境での実行(開発環境)
+
+```bash
+# SQLiteのローカルDBを利用
+npm run setup:dev
+npm run start
+```
+
 ## 利用した主なもの
 
 ### 実装
