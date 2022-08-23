@@ -17,7 +17,7 @@
     "@emotion/react": "^11.10.0",
     "@emotion/styled": "^11.10.0",
     "@mui/icons-material": "^5.8.4",
-    "@mui/material": "^5.9.3",
+    "@mui/material": "^5.10.1",
     "@mui/x-data-grid": "^5.15.3",
     "aws-amplify": "^4.3.32",
     "next": "12.2.5",
