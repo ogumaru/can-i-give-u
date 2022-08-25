@@ -33,12 +33,6 @@ export default function Records(
 
 const headers: GridColDef[] = [
   {
-    field: "id",
-    headerName: "ID",
-    editable: false,
-    flex: 5,
-  },
-  {
     field: "displayName",
     headerName: "name",
     editable: false,
