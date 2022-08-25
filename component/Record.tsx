@@ -1,6 +1,9 @@
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { Dispatch, SetStateAction } from "react";
 import { IPropsRecords } from "./typedef";
+import { Favorite, FavoriteBorder } from "@mui/icons-material";
+import NoMealsOutlinedIcon from "@mui/icons-material/NoMealsOutlined";
+import RestaurantOutlinedIcon from "@mui/icons-material/RestaurantOutlined";
 
 export default function Records(
   props: IPropsRecords & { setSelections: Dispatch<SetStateAction<number[]>> }
@@ -47,7 +50,7 @@ const headers: GridColDef[] = [
     type: "boolean",
     editable: false,
     renderCell: (arg) => {
-      return <>{arg.value ? "好き" : "好きじゃない"}</>;
+      return <>{arg.value ? <Favorite /> : <FavoriteBorder />}</>;
     },
     flex: 20,
   },
@@ -58,7 +61,9 @@ const headers: GridColDef[] = [
     type: "boolean",
     editable: false,
     renderCell: (arg) => {
-      return <>{arg.value ? "アレルギー" : "アレルギーじゃない"}</>;
+      return (
+        <>{arg.value ? <NoMealsOutlinedIcon /> : <RestaurantOutlinedIcon />}</>
+      );
     },
     flex: 20,
   },
