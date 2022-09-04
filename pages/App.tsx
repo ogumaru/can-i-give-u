@@ -5,6 +5,7 @@ import { DeleteButton } from "../component/DeleteButton";
 import { ILikingItemClient, IReadResponse } from "../component/typedef";
 import { Box, Snackbar, IconButton } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 const getList = async () => {
   const response = await fetch(`${window.location.href}api/liking`);
@@ -24,6 +25,7 @@ export default function App() {
   const [selections, setSelections] = useState([] as number[]);
   const [isSnackOpen, setIsSnakOpen] = useState(false);
   const [snackMessage, setSnackMessage] = useState("");
+  const isWide = useMediaQuery("(min-width:600px)");
   const showError = (message: string) => {
     setSnackMessage(message);
     setIsSnakOpen(true);
@@ -45,7 +47,7 @@ export default function App() {
 
   return (
     <RecordsContext.Provider value={records}>
-      <Box m={2} pt={3}>
+      <Box m={isWide ? 2 : 0} pt={isWide ? 3 : 0}>
         <CreateBox setter={setRecords} showError={showError} />
         <DeleteButton selections={selections} setter={setRecords} />
         <SearchBox setSelections={setSelections} />
