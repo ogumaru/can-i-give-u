@@ -2,8 +2,9 @@ import { Prisma, PrismaClient } from "@prisma/client";
 import { ILikingItemServer, ILikingItemClient } from "../component/typedef";
 import { INewRecord } from "../component/typedef";
 
+const prisma = new PrismaClient();
+
 const fetchDB = async () => {
-  const prisma = new PrismaClient();
   try {
     const records = await prisma.liking.findMany({
       include: { alias: true },
@@ -40,7 +41,6 @@ export const getRecords = async () => {
   else return null as never;
 };
 export const setRecord = async (record: INewRecord) => {
-  const prisma = new PrismaClient();
   const newRecord: Prisma.LikingCreateInput = {
     displayName: record.displayName,
     alias: {
@@ -63,7 +63,6 @@ export const setRecord = async (record: INewRecord) => {
 };
 
 export const deleteRecord = async (likingIDList: number[]) => {
-  const prisma = new PrismaClient();
   const queries = likingIDList
     .map((likingDeleteID) => {
       const deleteAlias = prisma.alias.deleteMany({
