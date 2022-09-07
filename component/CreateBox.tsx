@@ -4,6 +4,7 @@ import {
   FormControlLabel,
   Stack,
   TextField,
+  Box,
 } from "@mui/material";
 import { Dispatch, SetStateAction, useState } from "react";
 import React from "react";
@@ -163,30 +164,34 @@ export const CreateBox = (prop: {
           value={description}
           setter={setDescription}
         />
-        <FormControlLabel
-          control={
-            <Checkbox
-              checked={isLike}
-              onChange={(e) => setIsLike(e.target.checked)}
-              icon={<FavoriteBorder />}
-              checkedIcon={<Favorite />}
-            />
-          }
-          label="好み"
-          labelPlacement="end"
-        />
-        <FormControlLabel
-          control={
-            <Checkbox
-              checked={isAllergy}
-              onChange={(e) => setIsAllergy(e.target.checked)}
-              icon={<RestaurantOutlinedIcon />}
-              checkedIcon={<NoMealsOutlinedIcon />}
-            />
-          }
-          label="アレルギー"
-          labelPlacement="end"
-        />
+        <Box style={{ width: "auto" }} maxWidth="sm">
+          <FormControlLabel
+            style={{ height: "100%", padding: "0 0.5em 0 0.5em" }}
+            control={
+              <Checkbox
+                checked={isLike}
+                onChange={(e) => setIsLike(e.target.checked)}
+                icon={<FavoriteBorder />}
+                checkedIcon={<Favorite />}
+              />
+            }
+            label="好み"
+            labelPlacement="end"
+          />
+          <FormControlLabel
+            style={{ height: "100%", padding: "0 0.5em 0 0.5em" }}
+            control={
+              <Checkbox
+                checked={isAllergy}
+                onChange={(e) => setIsAllergy(e.target.checked)}
+                icon={<RestaurantOutlinedIcon />}
+                checkedIcon={<NoMealsOutlinedIcon />}
+              />
+            }
+            label="アレルギー"
+            labelPlacement="end"
+          />
+        </Box>
         <ButtonAddAlias value={aliasList} setter={setAlias} />
         {aliasList.map((alias, index) => (
           <StoredAliasField
