@@ -19,7 +19,7 @@
     "@mui/icons-material": "^5.10.3",
     "@mui/material": "^5.10.5",
     "@mui/x-data-grid": "^5.17.2",
-    "aws-amplify": "^4.3.34",
+    "aws-amplify": "^4.3.35",
     "next": "12.2.5",
     "react": "18.2.0",
     "react-dom": "18.2.0"
