@@ -48,7 +48,7 @@ export default function App() {
   return (
     <RecordsContext.Provider value={records}>
       <Box m={isWide ? 2 : 0} pt={isWide ? 3 : 0}>
-        <CreateBox setter={setRecords} showError={showError} />
+        <CreateBox setter={setRecords} showError={showError} isWide={isWide} />
         <DeleteButton selections={selections} setter={setRecords} />
         <SearchBox setSelections={setSelections} />
       </Box>

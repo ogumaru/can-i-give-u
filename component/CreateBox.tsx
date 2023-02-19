@@ -127,6 +127,7 @@ const ButtonAddAlias = (prop: {
 export const CreateBox = (prop: {
   setter: Dispatch<SetStateAction<ILikingItemClient[]>>;
   showError: (message: string) => void;
+  isWide: boolean;
 }) => {
   const [displayName, setDisplayName] = useState("");
   const [description, setDescription] = useState("");
@@ -167,7 +168,15 @@ export const CreateBox = (prop: {
         />
         <Box style={{ width: "auto" }} maxWidth="sm">
           <FormControlLabel
-            style={{ height: "100%", padding: "0 0.5em 0 0.5em" }}
+            style={
+              prop.isWide
+                ? {
+                    height: "100%",
+                    padding: "0 0.5em 0 0.5em",
+                    display: "inline",
+                  }
+                : { height: "100%", padding: "0 0.5em 0 0.5em" }
+            }
             control={
               <Checkbox
                 checked={isLike}
@@ -180,7 +189,15 @@ export const CreateBox = (prop: {
             labelPlacement="end"
           />
           <FormControlLabel
-            style={{ height: "100%", padding: "0 0.5em 0 0.5em" }}
+            style={
+              prop.isWide
+                ? {
+                    height: "100%",
+                    padding: "0 0.5em 0 0.5em",
+                    display: "inline",
+                  }
+                : { height: "100%", padding: "0 0.5em 0 0.5em" }
+            }
             control={
               <Checkbox
                 checked={isAllergy}
