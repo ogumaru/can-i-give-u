@@ -6,7 +6,7 @@ import {
   TextField,
   Box,
 } from "@mui/material";
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction, useState, ComponentProps } from "react";
 import React from "react";
 import { ICreatedResponse, ILikingItemClient, INewRecord } from "./typedef";
 import { Favorite, FavoriteBorder } from "@mui/icons-material";
@@ -36,14 +36,15 @@ const isValidRecord = (record: INewRecord) => {
   return true;
 };
 
-const ButtonSubmitNew = (prop: {
-  setter: Dispatch<SetStateAction<ILikingItemClient[]>>;
-  record: INewRecord;
-  reset: () => void;
-  disabled: boolean;
-  setDisabled: Dispatch<SetStateAction<boolean>>;
-  showError: (message: string) => void;
-}) => {
+const ButtonSubmitNew = (
+  prop: ComponentProps<"button"> & {
+    setter: Dispatch<SetStateAction<ILikingItemClient[]>>;
+    record: INewRecord;
+    reset: () => void;
+    setDisabled: Dispatch<SetStateAction<boolean>>;
+    showError: (message: string) => void;
+  }
+) => {
   const postData = async (record: INewRecord) => {
     prop.setDisabled(true);
     if (!isValidRecord(record)) {

@@ -1,13 +1,21 @@
 import { IconButton } from "@mui/material";
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import {
+  Dispatch,
+  SetStateAction,
+  useEffect,
+  useState,
+  ComponentProps,
+} from "react";
 import React from "react";
 import DeleteSweepOutlinedIcon from "@mui/icons-material/DeleteSweepOutlined";
 import { IDeletedResponse, ILikingItemClient } from "./typedef";
 
-export const DeleteButton = (props: {
-  selections: number[];
-  setter: Dispatch<SetStateAction<ILikingItemClient[]>>;
-}) => {
+export const DeleteButton = (
+  props: ComponentProps<"button"> & {
+    selections: number[];
+    setter: Dispatch<SetStateAction<ILikingItemClient[]>>;
+  }
+) => {
   const deleteRecord = async (IDList: number[]) => {
     const requestInit: RequestInit = {
       method: "DELETE",
