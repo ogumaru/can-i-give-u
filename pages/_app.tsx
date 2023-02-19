@@ -15,7 +15,13 @@ Amplify.configure({
 });
 
 function MyApp({ Component, pageProps }: AppProps) {
-  return (
+  return process.env.NODE_ENV === "development" ? (
+    <>
+      <Head>Liking</Head>
+      <Component {...pageProps} />
+      <Button>Logout</Button>
+    </>
+  ) : (
     <Authenticator>
       {({ signOut, user }) => (
         <>
