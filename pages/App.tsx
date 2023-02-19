@@ -23,16 +23,16 @@ export const RecordsContext = createContext(initialValue);
 export default function App() {
   const [records, setRecords] = useState(initialValue);
   const [selections, setSelections] = useState([] as number[]);
-  const [isSnackOpen, setIsSnakOpen] = useState(false);
+  const [isSnackOpen, setIsSnackOpen] = useState(false);
   const [snackMessage, setSnackMessage] = useState("");
   const isWide = useMediaQuery("(min-width:600px)");
   const showError = (message: string) => {
     setSnackMessage(message);
-    setIsSnakOpen(true);
+    setIsSnackOpen(true);
   };
   const action = (
     <>
-      <IconButton size="small" onClick={() => setIsSnakOpen(false)}>
+      <IconButton size="small" onClick={() => setIsSnackOpen(false)}>
         <CloseIcon fontSize="small" color="inherit" />
       </IconButton>
     </>
@@ -56,7 +56,7 @@ export default function App() {
         open={isSnackOpen}
         action={action}
         autoHideDuration={3000}
-        onClose={() => setIsSnakOpen(false)}
+        onClose={() => setIsSnackOpen(false)}
         message={snackMessage}
       />
     </RecordsContext.Provider>
